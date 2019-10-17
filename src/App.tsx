@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { api } from "./service/api.service";
 import { User } from "./service/users.model";
 import './App.css';
+import {jsonBinApi} from "./service/json-bin-api.service";
+
 
 interface IState {
   email: string;
@@ -21,12 +23,14 @@ class App extends Component<{}, IState> {
   }
 
   componentDidMount(): void {
-    api.getUser(2).then( (user: User) => {
-      this.setState({
-        email: user.email,
-        firstName: user.firstName,
-        avatar: user.avatar
-      })
+    jsonBinApi.getJsonBinObject().then(user => {
+      console.log(user);
+    });
+  }
+
+  handleClick () {
+    jsonBinApi.setJsonBinObject({
+      pisun: '5 sm'
     });
   }
 
@@ -34,10 +38,9 @@ class App extends Component<{}, IState> {
     const { email, firstName, avatar} = this.state;
 
     return (
-      <div>
-        <img src={avatar} alt={firstName}/>
-        <h3>{firstName}</h3>
-        <p>{email}</p>
+      <div className="App">
+        <button onClick={this.handleClick}>Send kall</button>
+        <input type="datetime-local"/>
       </div>
     );
   }
